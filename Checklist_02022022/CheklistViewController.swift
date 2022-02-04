@@ -7,8 +7,24 @@
 
 import UIKit
 
-class CheklistViewController: UITableViewController {
+class CheklistViewController: UITableViewController,AddItemViewControllerDelegate {
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: ChecklistItem) {
+        let newRowİndex = items.count
+        items.append(item)
+        let indexPath = IndexPath(row: newRowİndex, section: 0)
+        let indexPaths = [indexPath]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    // tanımlamalar
+    //var itemToEdit = ChecklistItem?
     var items = [ChecklistItem]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let item1 = ChecklistItem()
@@ -27,6 +43,12 @@ class CheklistViewController: UITableViewController {
         item5.text = "Eat ice cream"
         items.append(item5)
         navigationController?.navigationBar.prefersLargeTitles = true
+        /*
+         if let itemToEdit {
+            title = "Edit Item"
+            textField.text = item.text
+        }
+    */
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -50,16 +72,18 @@ class CheklistViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     func configureCheckmark( for cell: UITableViewCell, with item: ChecklistItem) {
+        let label = cell.viewWithTag(1001) as! UILabel
         if item.checked {
-            cell.accessoryType = .checkmark
+            label.text = "√"
         } else {
-            cell.accessoryType = .none
+            label.text = ""
         }
     }
     func configureText( for cell: UITableViewCell, with item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
     }
+  
     // MARK: - actions
     @IBAction func addItem() {
         let newRowİndex = items.count
@@ -75,6 +99,20 @@ class CheklistViewController: UITableViewController {
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
     }
+    override func prepare(
+     for segue: UIStoryboardSegue,
+     sender: Any?
+    ) {
+     // 1
+     if segue.identifier == "AddItem" {
+     // 2
+     let controller = segue.destination as! AddItemViewController
+     // 3
+     controller.delegate = self
+     }
+    }
+
+    
 }
 
 
