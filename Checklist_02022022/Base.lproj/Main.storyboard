@@ -74,7 +74,7 @@
         <!--Add Item-->
         <scene sceneID="AEE-sD-V0D">
             <objects>
-                <tableViewController id="iIB-Ni-WOJ" customClass="AddItemViewController" customModule="Checklist_02022022" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="iIB-Ni-WOJ" customClass="ItemDetailViewControllerDelegate" customModule="Checklist_02022022" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="pZy-LN-uRD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
