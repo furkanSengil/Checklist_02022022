@@ -41,6 +41,11 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         let checklist = lists[indexPath.row]
         performSegue(withIdentifier: "ShowChecklist", sender: checklist)
        }
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        performSegue(withIdentifier: "EditChecklist", sender: cell)
+ 
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowChecklist" {
             let controller = segue.destination as! CheklistViewController
@@ -48,15 +53,16 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         } else if segue .identifier == "AddChecklist" {
             let controller = segue.destination as! ListDetailViewController
             controller.delegate = self
+        } else if segue .identifier == "EditChecklist" {
+            let controller = segue.destination as! ListDetailViewController
+            controller.delegate = self
+            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
+                controller.checklistToEdit = lists[indexPath.row]
+            }
         }
     }
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let controller = storyboard!.instantiateViewController(withIdentifier: "ListDetailviewController") as! ListDetailViewController
-        controller.delegate = self
-        let checklist = lists[indexPath.row]
-        controller.checklistToEdit = checklist
-        navigationController?.pushViewController(controller, animated: true)
-    }
+   
+    
     func listDetailViewControllerDidCancel(_ controller: ListDetailViewController) {
         navigationController?.popViewController(animated: true)
     }
